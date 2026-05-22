@@ -4,49 +4,52 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
-
-namespace ejercicio04
+namespace Trabajo_5_S8
 {
     internal class Program
     {
-        // Este es el único punto de entrada de tu programa
         static void Main(string[] args)
         {
-            Console.Write("Ingrese la nota del estudiante: ");
-
-            // Usamos double.TryParse en lugar de Parse para evitar que el programa se cierre si escriben una letra
-            if (double.TryParse(Console.ReadLine(), out double nota))
+            Console.Write("ingrese la nota : ");
+            double nota = double.Parse(Console.ReadLine());
+            nota = validacionNotas(nota);
+            string clasificacion = ClasificacionNotas(nota);
+            mostrarComprobante(clasificacion, nota);
+        }
+        static double validacionNotas(double nota)
+        {
+        while (nota < 0 || nota > 20)
             {
-                // Usamos la función NotaValida para verificar el rango
-                if (NotaValida(nota))
-                {
-                    // Si es válida, evaluamos si aprueba (11 o más) o desaprueba
-                    if (nota >= 11)
-                    {
-                        Console.WriteLine("Estado: Aprobado");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Estado: Desaprobado");
-                    }
-                }
-                else
-                {
-                    // Si la nota no está entre 0 y 20
-                    Console.WriteLine("Error: La nota ingresada es inválida. Debe estar entre 0 y 20.");
-                }
+                Console.Write("#nota invalida# ingrese de nuevo : ");
+                nota = double.Parse(Console.ReadLine());
+            }
+
+            Console.WriteLine("nota válida");
+            return nota;
+        }
+        static string ClasificacionNotas(double nota)
+        {
+            if (nota > 18)
+            {
+                return ("EXELENTE");
+            }
+            else if (nota > 14)
+            {
+                return ("bueno");
+            }
+            else if (nota > 11)
+            {
+                return ("regular");
             }
             else
             {
-                Console.WriteLine("Error: Debe ingresar un número válido.");
+                return ("desaprobado");
             }
         }
-
-        // La función NotaValida ahora está afuera del Main, como un método independiente de la clase
-        static bool NotaValida(double nota)
+        static void mostrarComprobante(string clasificacion, double nota)
         {
-            return nota >= 0 && nota <= 20;
+            Console.WriteLine($"nota ingresada {nota}");
+            Console.WriteLine($"clasificacion: {clasificacion}");
         }
     }
 }
